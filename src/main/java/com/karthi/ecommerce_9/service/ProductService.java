@@ -39,4 +39,22 @@ public class ProductService {
         repo.save(product);
     }
 
+    public void updateProduct(Product product, MultipartFile image) throws IOException {
+        if (image != null) {
+            product.setImageName(image.getOriginalFilename());
+            product.setImageType(image.getContentType());
+            product.setImage(image.getBytes());
+        }
+        if (product.getStockQuantity() > 1) {
+            product.setAvailable(true);
+        } else {
+            product.setAvailable(false);
+        }
+
+        repo.save(product);
+    }
+
+    public List<Product> findByKeyword(String keyword) {
+        return repo.findByKeyword(keyword);
+    }
 }

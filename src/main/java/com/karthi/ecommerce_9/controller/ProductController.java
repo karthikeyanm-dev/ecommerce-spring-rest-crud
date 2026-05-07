@@ -90,11 +90,17 @@ public class ProductController {
         existingProduct.setStockQuantity(product.getStockQuantity());
         existingProduct.setAvailable(product.isAvailable());
         try{
-            productService.saveProduct(existingProduct,image);
+            productService.updateProduct(existingProduct,image);
         } catch (IOException e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
 
+    }
+
+    @GetMapping("/products/search")
+    public ResponseEntity<?> getProductsByName(@RequestParam String keyword){
+        System.out.println(keyword);
+        return new ResponseEntity<>(productService.findByKeyword(keyword),HttpStatus.OK);
     }
 }
